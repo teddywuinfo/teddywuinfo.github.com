@@ -3,12 +3,12 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://teddywuinfo.github.com
-title: teddywu's blog		
-subtitle: 我的博客
+url: http://www.teddywu.info
+title: Teddywu的博客		
+subtitle: Coding is sexy.
 author: Teddywu
 simple_search: http://google.com/search
-description: this is my new blog
+description: 你好，我是Teddy Wu，可以叫我泰迪。目前就职于腾讯QQ空间前端开发。最近负责wp8平台上的开发QQ空间的客户端应用。
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -46,7 +46,7 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # list each of the sidebar modules you want to include, in the order you want them to appear.
 # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
-default_asides: [asides/recent_posts.html, asides/github.html, asides/twitter.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
+default_asides: [custom/asides/about.html, asides/recent_posts.html, asides/github.html, asides/twitter.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
