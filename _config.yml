@@ -4,7 +4,7 @@
 # ----------------------- #
 
 url: http://www.teddywu.info
-title: Teddywu的博客		
+title: Teddywu		
 subtitle: Coding is sexy.
 author: Teddywu
 simple_search: http://google.com/search
@@ -14,7 +14,7 @@ description: 你好，我是Teddy Wu，可以叫我泰迪。目前就职于腾�
 # You can customize the format as defined in
 # http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime
 # Additionally, %o will give you the ordinal representation of the day
-date_format: "ordinal"
+date_format: "%Y年%m月%d日 %H:%M"
 
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
 subscribe_rss: /atom.xml
@@ -40,7 +40,7 @@ pygments: false # default python pygments have been replaced by pygments.rb
 paginate: 10          # Posts per page on the blog index
 pagination_dir: blog  # Directory base for pagination URLs eg. /blog/page/2/
 recent_posts: 5       # Posts in the sidebar Recent Posts section
-excerpt_link: "Read on &rarr;"  # "Continue reading" link text at the bottom of excerpted articles
+excerpt_link: "全文阅读 &rarr;"  # "Continue reading" link text at the bottom of excerpted articles
 
 titlecase: true       # Converts page and post titles to titlecase
 
@@ -70,7 +70,7 @@ twitter_tweet_count: 4
 twitter_show_replies: false
 twitter_follow_button: true
 twitter_show_follower_count: false
-twitter_tweet_button: true
+twitter_tweet_button: false
 
 # Google +1
 google_plus_one: false
@@ -90,7 +90,7 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
+disqus_short_name: teddywu
 disqus_show_comment_count: false
 
 # Google Analytics
