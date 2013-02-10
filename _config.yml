@@ -1,13 +1,14 @@
 # ----------------------- #
+# ----------------------- #
 #      Main Configs       #
 # ----------------------- #
 
 url: http://teddywuinfo.github.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+title: teddywu's blog		
+subtitle: 我的博客
+author: Teddywu
 simple_search: http://google.com/search
-description:
+description: this is my new blog
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
