@@ -1,8 +1,0 @@
----
-layout: post
-title: "试下中文呢"
-date: 2013-02-10 15:27
-comments: true
-categories: 
----
-试下中文
