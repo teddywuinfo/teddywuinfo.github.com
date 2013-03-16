@@ -246,6 +246,17 @@ task :rsync do
   ok_failed system("rsync -avze 'ssh -p #{ssh_port}' #{exclude} #{rsync_args} #{"--delete" unless rsync_delete == false} #{public_dir}/ #{ssh_user}:#{document_root}")
 end
 
+desc "Push the source to remote, for bakeup"
+task :backup do
+  puts "## push the source to remote source"
+  system "git add ."
+  puts "\n## Commiting: source updated at #{Time.now.utc}"
+  message = "Site updated at #{Time.now.utc}"
+  system "git commit -m \"#{message}\""
+  system "git push origin source --force"
+  puts "\n## Github Pages bakeup complete"
+end
+
 desc "deploy public directory to github pages"
 multitask :push do
   puts "## Deploying branch to Github Pages "
