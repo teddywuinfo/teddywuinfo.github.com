@@ -226,7 +226,7 @@ task :deploy do
 end
 
 desc "Generate website and deploy"
-task :gen_deploy => [:integrate, :generate, :deploy] do
+task :gen_deploy => [:integrate, :generate, :deploy, :backup] do
 end
 
 desc "copy dot files for deployment"
@@ -254,7 +254,7 @@ task :backup do
   message = "Site updated at #{Time.now.utc}"
   system "git commit -m \"#{message}\""
   system "git push origin source --force"
-  puts "\n## Github Pages bakeup complete"
+  puts "\n## Github Pages backup complete"
 end
 
 desc "deploy public directory to github pages"
