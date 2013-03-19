@@ -1,6 +1,6 @@
 ---
 layout: post
-title: “[WP8开发]利用WriteableBitmap图片压缩的两种方法“
+title: [WP8开发]利用WriteableBitmap图片压缩的两种方法
 date: 2013-03-19 09:59
 comments: true
 categories: [wp8, windows phone 8, writeablebitmap,图片压缩, compress]
