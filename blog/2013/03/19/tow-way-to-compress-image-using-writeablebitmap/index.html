@@ -1,0 +1,234 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>“[WP8开发]利用WriteableBitmap图片压缩的两种方法“ - Teddywu</title>
+	<meta name="author" content="Teddywu">
+
+	
+	<meta name="description" content="在WP8 QZONE项目开发过程中，需要实现图片上传功能，那么上传图片之前，出于节省用户的流量和提高上传速度，需要先把图片进行压缩后再上传。利用WriteableBitmap 可以轻松实现图片压缩。 方案一： 利用DecodeJpeg 和SaveJpeg方法实现图片压缩 byte[] &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Teddywu" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.ico" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Teddywu</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">最近博客</a></li>
+	<li><a href="/blog/archives">博客列表</a></li>
+	<li><a href="/blog/about">关于泰迪</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">最近博客</a></li>
+	<li><a href="/blog/archives">博客列表</a></li>
+	<li><a href="/blog/about">关于泰迪</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:teddywuinfo.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:teddywuinfo.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">“[WP8开发]利用WriteableBitmap图片压缩的两种方法“</h2>
+	<div class="entry-content"><p>在WP8 QZONE项目开发过程中，需要实现图片上传功能，那么上传图片之前，出于节省用户的流量和提高上传速度，需要先把图片进行压缩后再上传。利用WriteableBitmap 可以轻松实现图片压缩。</p>
+
+<!-- more -->
+
+
+<p>方案一： 利用DecodeJpeg 和SaveJpeg方法实现图片压缩</p>
+
+<pre><code>byte[] UploadPictureProcess(byte[] bytes) {
+    using (MemoryStream ms = new MemoryStream(bytes)) {
+        using (MemoryStream toSM = new MemoryStream()) {
+            WriteableBitmap bt;
+            //输入stream，得到WriteableBitmap 
+            bt = Microsoft.Phone.PictureDecoder.DecodeJpeg(ms);
+            //GetSize的作用以压缩前的宽高，算出压缩后的宽高
+            Size size = GetSize(new Size(bt.PixelWidth, bt.PixelHeight));
+            //通过减少图片宽高和压缩率，来降低图片大小
+            //GetCompressRatio()方法得到压缩率
+            bt.SaveJpeg(toSM, (int)size.Width, (int)size.Height, 0, GetCompressRatio());
+            bt = null;
+            return toSM.ToArray();
+        }
+    }
+}
+</code></pre>
+
+<p>利用方案一已经可以实现图片压缩了，但在调用DecodeJpeg方法的时候，会瞬间占用大量内存。如果图片较大的情况下或者批量上传图片的时候，容易因为内存不足crash。为什么呢？经过分析发现，这里主要是WriteableBitmap 占用了较大内存，一个WriteableBitmap 所占用的内存为像素高<em>像素宽</em>4那么大的内存。DecodeJpeg函数创建了原图像素高*原图像素宽那么大的WriteableBitmap，其实并不需要那么大，只需要用压缩后的高宽大小就够用了。 因此可以用Render函数代替DecodeJpeg，通过设置transfrom的缩放因子调正WriteableBitmap 的像素宽高，降低内存占用。因此有了方案二。</p>
+
+<p>方案二： 利用Render和SaveJpeg方法</p>
+
+<p>利用WriteableBitmap 的Render函数，Render 接收两个参数，一个是原图的控件，一个是图片变换(Transform)。 函数根据图片变换的参数对原图进行处理，返回 WriteableBitmap。这里的图片变换可以是放大、缩小、位移、旋转等等。我们可以通过设置图片变换的缩放因子ScaleX和ScaleY ——让WriteableBitmap 进行缩小。</p>
+
+<pre><code>byte[] UploadPictureProcess(byte[] bytes) {
+    using (MemoryStream ms = new MemoryStream(bytes)) {
+        using (MemoryStream toSM = new MemoryStream()) {
+            Image image = new Image();
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.SetSource(ms);
+            image.Source = bitmap;
+            //GetSize的作用以压缩前的宽高，算出压缩后的宽高
+            Size size = GetSize(new Size(bitmap.PixelWidth, bitmap.PixelHeight));
+            //先得到压缩后的宽高，并创建以该宽高创建一个WriteableBitmap 
+            WriteableBitmap wb = new WriteableBitmap((int)size.Width, (int)size.Height);
+            ScaleTransform transform = new ScaleTransform();
+            //ScaleX和ScaleY是缩放因子，这里计算压缩前后宽高的缩放比例，得到图片变换(transfrom)对象，作为Render的参数
+            transform.ScaleX = size.Width / bitmap.PixelWidth;
+            transform.ScaleY = size.Height / bitmap.PixelHeight;
+            //通过Render绘制到WriteableBitmap 
+            wb.Render(image, transform);
+            wb.Invalidate();
+            //这里也是一样通过减少图片宽高和压缩率，来降低图片大小
+            //GetCompressRatio()方法得到压缩率
+            Extensions.SaveJpeg(wb, toSM, (int)size.Width, (int)size.Height, 0, GetCompressRatio()); 
+            bitmap = null;
+            image.Source = null;
+            image = null;
+            wb = null;
+            return toSM.ToArray();
+        }
+    }
+}
+</code></pre>
+
+<p>方案二跟方案一相比的内存占用量相比相差是很明显的。压缩效果也是一样。因此得到比较满意的图片压缩方案。这里进行分享下，欢迎拍砖~</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-19T09:59:00+08:00" pubdate data-updated="true">2013年03月19日 09:59</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/compress/'>compress</a>, <a class='category' href='/blog/categories/windows-phone-8/'>windows phone 8</a>, <a class='category' href='/blog/categories/wp8/'>wp8</a>, <a class='category' href='/blog/categories/writeablebitmap/'>writeablebitmap</a>, <a class='category' href='/blog/categories/图片压缩/'>图片压缩</a>
+
+
+</div>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">﻿<p>
+  Copyright &copy; 2013 - Teddywu -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>& <a href="http://jekyllrb.com/">jekyll</a></span>
+</p>
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'teddywu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://teddywuinfo.github.com/blog/2013/03/19/tow-way-to-compress-image-using-writeablebitmap/';
+        var disqus_url = 'http://teddywuinfo.github.com/blog/2013/03/19/tow-way-to-compress-image-using-writeablebitmap/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-38370748-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
