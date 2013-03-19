@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: octopress | Teddywu]]></title>
+  <link href="http://teddywuinfo.github.com/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://teddywuinfo.github.com/"/>
+  <updated>2013-03-19T09:45:22+08:00</updated>
+  <id>http://teddywuinfo.github.com/</id>
+  <author>
+    <name><![CDATA[Teddywu]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[bug 分享] octopress rake deploy 时无法连接ssh]]></title>
+    <link href="http://teddywuinfo.github.com/blog/2013/03/16/octopree-rake-deploy-ssh-connect-timed-out/"/>
+    <updated>2013-03-16T19:42:00+08:00</updated>
+    <id>http://teddywuinfo.github.com/blog/2013/03/16/octopree-rake-deploy-ssh-connect-timed-out</id>
+    <content type="html"><![CDATA[<p>用octopress在公司写好博客，打算发布，卡在rake deploy 的时候，问题如下：</p>
+
+<!-- more -->
+
+
+<pre><code>C:\Users\teddywu.TENCENT\devkit\octopress\_deploy&gt;rake deploy
+(in C:/Users/teddywu.TENCENT/devkit/octopress)
+## Deploying branch to Github Pages
+rm -rf _deploy/assets
+rm -rf _deploy/atom.xml
+rm -rf _deploy/blog
+rm -rf _deploy/CNAME
+rm -rf _deploy/favicon.ico
+rm -rf _deploy/favicon.png
+rm -rf _deploy/font
+rm -rf _deploy/images
+rm -rf _deploy/index.html
+rm -rf _deploy/javascripts
+rm -rf _deploy/robots.txt
+rm -rf _deploy/sitemap.xml
+rm -rf _deploy/stylesheets
+
+## copying public to _deploy
+cp -r public/. _deploy
+cd _deploy
+
+## Commiting: Site updated at 2013-03-16 10:44:32 UTC
+# On branch master
+nothing to commit, working directory clean
+
+## Pushing generated _deploy website
+ssh: connect to host ssh.github.com port 443: Bad file number
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+## Github Pages deploy complete
+cd -
+
+C:\Users\teddywu.TENCENT\devkit\octopress\_deploy&gt;
+</code></pre>
+
+<p>错误提示：</p>
+
+<pre><code>ssh: connect to host ssh.github.com port 443: Bad file number
+fatal: Could not read from remote repository.
+</code></pre>
+
+<p>我猜，是不是由于网络问题不能通过ssh访问git呢？那我先判断下是不是ssh访问不了git..我重新在本机使用Git创建SSH Key</p>
+
+<pre><code> ssh-keygen -C "username@email.com" -t rsa
+</code></pre>
+
+<p>并按照<a href="http://www.cnblogs.com/javac/archive/2012/07/31/2617432.html" title="创建ssh key">这里</a>的方法创建ssh key 并连接到github。一测试，发现：</p>
+
+<pre><code>teddywu@TEDDYWU-PC4 /C/Users/teddywu/devkit/octopress (source)
+$ ssh -v git@github.com
+OpenSSH_4.6p1, OpenSSL 0.9.8e 23 Feb 2007
+debug1: Reading configuration data /c/Users/teddywu.TENCENT/.ssh/config
+debug1: Applying options for github.com
+debug1: Connecting to ssh.github.com [207.97.227.248] port 443.
+debug1: connect to address 207.97.227.248 port 443: Attempt to connect timed out
+without establishing a connection
+ssh: connect to host ssh.github.com port 443: Bad file number
+teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress (source)
+$
+</code></pre>
+
+<p>我知道是我的ssh出问题了，估计是公司网络禁用了ssh。幸好git可以通过https、git、ssh三种协议来读写。公司网络https是可以走的，那我只需要更改下octopress 提交git 的方式。我在<code>Octopress</code>目录下全文搜索<code>deploy</code>。找到了可疑文件<code>Rakefile</code>文件，打开看下，发现<code>rake preview</code>、<code>rake generate</code>、<code>rake deploy</code>等脚本其实都写在这。于是我看了下 <code>rake deploy</code> 和<code>rake  setup_github_pages</code>的实现。</p>
+
+<p>setup_github_pages的代码片段：</p>
+
+<pre><code>cd "#{deploy_dir}" do
+    system "git init"
+    system "echo 'My Octopress Page is coming soon &amp;hellip;' &gt; index.html"
+    system "git add ."
+    system "git commit -m \"Octopress init\""
+    system "git branch -m gh-pages" unless branch == 'master'
+    system "git remote add origin #{repo_url}"
+    rakefile = IO.read(__FILE__)
+    rakefile.sub!(/deploy_branch(\s*)=(\s*)(["'])[\w-]*["']/, "deploy_branch\\1=\\2\\3#{branch}\\3")
+    rakefile.sub!(/deploy_default(\s*)=(\s*)(["'])[\w-]*["']/, "deploy_default\\1=\\2\\3push\\3")
+    File.open(__FILE__, 'w') do |f|
+      f.write rakefile
+    end
+end
+</code></pre>
+
+<p>发现在<code>setup_github_pages</code> 的时候，在<code>_deploy</code>文件夹里面创建了一个新的git仓库，并以用户提交的ssh url 作为名为origin 的远程库的url路径。那么就好办了。其中一个解决办法是，直接修改origin远程库的url路径为Https协议就好了 :</p>
+
+<pre><code>teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress (source)
+$ cd _deploy/
+teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress/_deploy (master)
+$ git remote rm origin
+teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress/_deploy (master)
+$ git remote add origin https://github.com/teddywuinfo/teddywuinfo.github.com.g
+it
+teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress/_deploy (master)
+$ git remote -v
+origin  https://github.com/teddywuinfo/teddywuinfo.github.com.git (fetch)
+origin  https://github.com/teddywuinfo/teddywuinfo.github.com.git (push)
+teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress/_deploy (master)
+$
+</code></pre>
+
+<p>至此便可以通过https协议读写github，但麻烦的是每次都需要输入用户名和密码。但没办法啦不支持ssh，也只能这样了。</p>
+
+<p>(完)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[bug 分享]octopress rake generate bug fix : Liquid Exception: invalid byte sequence in GBK in post]]></title>
+    <link href="http://teddywuinfo.github.com/blog/2013/03/16/octopress-rake-generate-bug-fix-liquid-exception-invalid-byte-sequence-in-gbk-in-post/"/>
+    <updated>2013-03-16T18:58:00+08:00</updated>
+    <id>http://teddywuinfo.github.com/blog/2013/03/16/octopress-rake-generate-bug-fix-liquid-exception-invalid-byte-sequence-in-gbk-in-post</id>
+    <content type="html"><![CDATA[<p>win 8 下 octopress 博客搭建的时候，在  rake generate 时发现如下错误：</p>
+
+<pre><code>Liquid Exception: invalid byte sequence in GBK in post
+</code></pre>
+
+<!--more -->
+
+
+<p>如下图：</p>
+
+<p><img src="/images/git/octopress%20rake%20generate.png" title="bug图" alt="bug图" /></p>
+
+<p>分析： 这里的bug 出现时因为Ruby 里面 File.read 不支持 utf-8 导致。</p>
+
+<p>解决方案：</p>
+
+<p>到Ruby的安装目次<code>\lib\ruby\gems\1.9.1\gems\jekyll-0.11.2\lib\jekyll\</code>找到<code>convertible.rb</code>这个文件，批改</p>
+
+<pre><code>self.content = File.read(File.join(base, name))
+</code></pre>
+
+<p>为</p>
+
+<pre><code>self.content = File.read(File.join(base, name), :encoding =&gt; "utf-8")
+</code></pre>
+
+<p>如果在jekyll-0.12.0版本，另外在此文件也有同样问题：</p>
+
+<p><code>\lib\ruby\gems\1.9.1\gems\jekyll-0.12.0\lib\jekyll\tags\include.rb</code></p>
+
+<p>(完)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[开始写博客]]></title>
+    <link href="http://teddywuinfo.github.com/blog/2013/02/17/i-want-to-blog/"/>
+    <updated>2013-02-17T20:18:00+08:00</updated>
+    <id>http://teddywuinfo.github.com/blog/2013/02/17/i-want-to-blog</id>
+    <content type="html"><![CDATA[<p>酝酿了很久，终于下定决心要写博客。自知自己的毅力不是很强，不知道能坚持多久，但既然有了这个想法和冲动，就要动起手来。不能让以后的我后悔。很多人觉得博客已经过时了，现在都流行微博。为什么我还要写博客呢？</p>
+
+<!-- more -->
+
+
+<h3>目的</h3>
+
+<ol>
+<li>写博客，能够帮助自己把零散的资料和经验转化为结构化的知识。在写博客的过程，能够强迫自己对某个主题进行深入挖掘。把原来零散的信息转化搭建起来自己的知识体系。</li>
+<li>写博客，可以把自己的经验和更多的人进行分享。在分享过程中，经过不断的讨论，往往能把问题看的更加深入和透彻。</li>
+<li>写博客，可以能够认识更多志同道合的朋友。</li>
+<li>写博客，也是一个窗口，让让更多的人了解你、认识你，提高个人的影响力。</li>
+</ol>
+
+
+<h3>内容</h3>
+
+<p>我的博客内容主要的题材是记录我的工作和一些技术的积累。以后也许会变化，但那是以后的事了。</p>
+
+<h3>工作流</h3>
+
+<ul>
+<li>在evernote上收集某个话题的素材</li>
+<li>通过思维导图进行整合</li>
+<li>整理后输出博客</li>
+</ul>
+
+
+<h3>建博客要求</h3>
+
+<ul>
+<li>要有自己的域名</li>
+<li>要对博客的内容要有把控权</li>
+<li>保持简单</li>
+<li>可以很方便地迁移博客数据</li>
+<li>尽可能便宜</li>
+</ul>
+
+
+<h3>方案</h3>
+
+<h4>博客系统</h4>
+
+<p>在博客系统的选择上面，可以选择强大开源免费的wordpress博客系统。另外可以选择用jekyll的方案。</p>
+
+<p><a href="http://cn.wordpress.org/">wordpress</a> 是全球最出名的博客系统，相信不用多做介绍。</p>
+
+<p>jekyll 是一个简洁的、特别针对博客平台的静态网站生成器。它使用一个模板目录作为网站布局的基础框架，并在其上运行 Textile 、 Markdown 或 Liquid 标记语言的转换器，最终生成一个完整的静态Web站点，可以被放置在Apache或者你喜欢的其他任何Web服务器上。它同时也是 <a href="http://pages.github.com/">GitHub Pages</a> 、一个由 GitHub 提供的用于托管项目主页或博客的服务，在后台所运行的引擎。</p>
+
+<p>wordpress的优点是，它是最流行的博客软件，拥有数以万计的插件和主题。使用人数众多，搭建非常容易。但它对比jekyll来讲也有以下缺点：数据以数据库的方式存储；需要使用服务器来托管，因此需要付出托管费用。</p>
+
+<p>jekyll的优点在于它的简单，博客可以原文保存在本地，方便数据迁移和本地阅读。另外使用github pages静态资源托管服务，可以免去了托管的费用。jekyll方案的缺点是需要学习ruby、markdown、git等一大堆新技术和语法；另外jekyll提供样式主题很少；由于使用人数不多，可能会遇到很多坑，搭建起来比较麻烦。</p>
+
+<p>最后，我还是选择了jekyll的方案。一来可以有机会学习新的知识。二来免去了托管费用对我来说是个挺大的吸引力。三来可以本地存储博客文章是一个非常优雅的方式。</p>
+
+<h4>域名</h4>
+
+<p>另外在域名方面，我选择了<a href="http://www.godaddy.com">godaddy</a>的服务。优点多多，一来便宜；还不用备案；服务有保障，而且支付可以使用支付宝和财富通，还是很方便的。于是我申请了我的个人博客域名：<a href="http://www.teddywu.info">www.teddywu.info</a>。一年的价格才2.99美金，相当划算。当然第二年就不会这么便宜了。其实我最想买的域名是teddywu.it或者gaogao.it。it后缀的域名本来是指italiy的。但用来暗指Information Technology还是挺有意思的。但价格略贵，要30多美金，就先Hold住了。</p>
+
+<h4>DNS 域名解析服务</h4>
+
+<p>一般DNS解析服务都是由域名提供商提供。后来朋友推荐使用<a href="https://www.dnspod.cn">dnspod</a>这个第三方DNS域名解析服务商来解析DNS。发现还真的挺不错的。这里也推荐一下。只要在DNSPOD网站上注册帐号，然后将在godaddy购买的域名默认给的name server解析域名更改为dnspod提供的域名。等待3分钟到2天不等，即可。使用<a href="https://www.dnspod.cn">dnspod</a>的好处是它的用户界面简洁易懂，配置方便。另外还有监控提醒等功能。使用起来相当舒服。</p>
+
+<h3>实践</h3>
+
+<p>具体搭建博客也是一门学问。我先是用jekyll搭建起来了博客，跑了起来。这个过程可以参考阮一峰写的博客《<a href="http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html">搭建一个免费的，无限流量的Blog----github Pages和Jekyll入门</a>》。 后来发现有个jekyll的框架<a href="http://octopress.org/">octopress</a>还不错。就又折腾半天使用<a href="http://octopress.org/">octopress</a>进行搭建。详情请参考《<a href="http://easypi.github.com/blog/2013/01/05/using-octopress-to-setup-blog-on-github/">利用Octopress在github Pages上搭建个人博客</a>》。在这里不作赘述。</p>
+
+<p>相关的文章可供参考：</p>
+
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html">搭建一个免费的，无限流量的Blog----github Pages和Jekyll入门</a></li>
+<li><a href="http://www.soimort.org/posts/101/">像黑客一样写博客——Jekyll入门</a></li>
+<li><a href="http://easypi.github.com/blog/2013/01/05/using-octopress-to-setup-blog-on-github/">利用Octopress在github Pages上搭建个人博客</a></li>
+</ul>
+
+
+<p>当然在搭建过程中我也遇到了不少坑。比如中文支持的问题，防火墙的问题等。在以后的博客中再进行详述。</p>
+
+<p>最后，赞一下自己，能有耐心写到这里。希望我能长期坚持下去。加油！</p>
+]]></content>
+  </entry>
+  
+</feed>

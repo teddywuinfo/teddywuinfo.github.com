@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: GBK | Teddywu]]></title>
+  <link href="http://teddywuinfo.github.com/blog/categories/gbk/atom.xml" rel="self"/>
+  <link href="http://teddywuinfo.github.com/"/>
+  <updated>2013-03-19T09:45:22+08:00</updated>
+  <id>http://teddywuinfo.github.com/</id>
+  <author>
+    <name><![CDATA[Teddywu]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[bug 分享]octopress rake generate bug fix : Liquid Exception: invalid byte sequence in GBK in post]]></title>
+    <link href="http://teddywuinfo.github.com/blog/2013/03/16/octopress-rake-generate-bug-fix-liquid-exception-invalid-byte-sequence-in-gbk-in-post/"/>
+    <updated>2013-03-16T18:58:00+08:00</updated>
+    <id>http://teddywuinfo.github.com/blog/2013/03/16/octopress-rake-generate-bug-fix-liquid-exception-invalid-byte-sequence-in-gbk-in-post</id>
+    <content type="html"><![CDATA[<p>win 8 下 octopress 博客搭建的时候，在  rake generate 时发现如下错误：</p>
+
+<pre><code>Liquid Exception: invalid byte sequence in GBK in post
+</code></pre>
+
+<!--more -->
+
+
+<p>如下图：</p>
+
+<p><img src="/images/git/octopress%20rake%20generate.png" title="bug图" alt="bug图" /></p>
+
+<p>分析： 这里的bug 出现时因为Ruby 里面 File.read 不支持 utf-8 导致。</p>
+
+<p>解决方案：</p>
+
+<p>到Ruby的安装目次<code>\lib\ruby\gems\1.9.1\gems\jekyll-0.11.2\lib\jekyll\</code>找到<code>convertible.rb</code>这个文件，批改</p>
+
+<pre><code>self.content = File.read(File.join(base, name))
+</code></pre>
+
+<p>为</p>
+
+<pre><code>self.content = File.read(File.join(base, name), :encoding =&gt; "utf-8")
+</code></pre>
+
+<p>如果在jekyll-0.12.0版本，另外在此文件也有同样问题：</p>
+
+<p><code>\lib\ruby\gems\1.9.1\gems\jekyll-0.12.0\lib\jekyll\tags\include.rb</code></p>
+
+<p>(完)</p>
+]]></content>
+  </entry>
+  
+</feed>

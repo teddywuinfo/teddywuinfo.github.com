@@ -1,0 +1,202 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>[bug 分享]octopress rake generate bug fix : Liquid Exception: invalid byte sequence in GBK in post - Teddywu</title>
+	<meta name="author" content="Teddywu">
+
+	
+	<meta name="description" content="win 8 下 octopress 博客搭建的时候，在 rake generate 时发现如下错误： Liquid Exception: invalid byte sequence in GBK in post 如下图： 分析： 这里的bug 出现时因为Ruby 里面 File.read 不支持 &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Teddywu" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.ico" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Teddywu</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">最近博客</a></li>
+	<li><a href="/blog/archives">博客列表</a></li>
+	<li><a href="/blog/about">关于泰迪</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">最近博客</a></li>
+	<li><a href="/blog/archives">博客列表</a></li>
+	<li><a href="/blog/about">关于泰迪</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:teddywuinfo.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:teddywuinfo.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">[Bug 分享]octopress Rake Generate Bug Fix : Liquid Exception: Invalid Byte Sequence in GBK in Post</h2>
+	<div class="entry-content"><p>win 8 下 octopress 博客搭建的时候，在  rake generate 时发现如下错误：</p>
+
+<pre><code>Liquid Exception: invalid byte sequence in GBK in post
+</code></pre>
+
+<!--more -->
+
+
+<p>如下图：</p>
+
+<p><img src="/images/git/octopress%20rake%20generate.png" title="bug图" alt="bug图" /></p>
+
+<p>分析： 这里的bug 出现时因为Ruby 里面 File.read 不支持 utf-8 导致。</p>
+
+<p>解决方案：</p>
+
+<p>到Ruby的安装目次<code>\lib\ruby\gems\1.9.1\gems\jekyll-0.11.2\lib\jekyll\</code>找到<code>convertible.rb</code>这个文件，批改</p>
+
+<pre><code>self.content = File.read(File.join(base, name))
+</code></pre>
+
+<p>为</p>
+
+<pre><code>self.content = File.read(File.join(base, name), :encoding =&gt; "utf-8")
+</code></pre>
+
+<p>如果在jekyll-0.12.0版本，另外在此文件也有同样问题：</p>
+
+<p><code>\lib\ruby\gems\1.9.1\gems\jekyll-0.12.0\lib\jekyll\tags\include.rb</code></p>
+
+<p>(完)</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-16T18:58:00+08:00" pubdate data-updated="true">2013年03月16日 18:58</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/gbk/'>GBK</a>, <a class='category' href='/blog/categories/invalid-byte-sequence-in-gbk-in-post/'>invalid byte sequence in GBK in post</a>, <a class='category' href='/blog/categories/jekyll/'>jekyll</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/rake-generate/'>rake generate</a>
+
+
+</div>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">﻿<p>
+  Copyright &copy; 2013 - Teddywu -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>& <a href="http://jekyllrb.com/">jekyll</a></span>
+</p>
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'teddywu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://teddywuinfo.github.com/blog/2013/03/16/octopress-rake-generate-bug-fix-liquid-exception-invalid-byte-sequence-in-gbk-in-post/';
+        var disqus_url = 'http://teddywuinfo.github.com/blog/2013/03/16/octopress-rake-generate-bug-fix-liquid-exception-invalid-byte-sequence-in-gbk-in-post/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-38370748-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

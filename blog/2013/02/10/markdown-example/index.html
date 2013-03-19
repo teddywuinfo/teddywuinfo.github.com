@@ -1,0 +1,342 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Markdown语法测试 - Teddywu</title>
+	<meta name="author" content="Teddywu">
+
+	
+	<meta name="description" content="此文主要是用于熟悉markdown的一些常用用法，分别显示了原文格式和html化之后的格式。以供参考。 Markdown语法测试__这里是一级标题
+========
+作者：泰迪__这里是二级标题
+------- ### 这里是三级标题 ### #### 四级标题 &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Teddywu" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.ico" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Teddywu</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">最近博客</a></li>
+	<li><a href="/blog/archives">博客列表</a></li>
+	<li><a href="/blog/about">关于泰迪</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">最近博客</a></li>
+	<li><a href="/blog/archives">博客列表</a></li>
+	<li><a href="/blog/about">关于泰迪</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:teddywuinfo.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:teddywuinfo.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Markdown语法测试</h2>
+	<div class="entry-content"><p>此文主要是用于熟悉markdown的一些常用用法，分别显示了原文格式和html化之后的格式。以供参考。</p>
+
+<!-- more -->
+
+
+<pre><code>Markdown语法测试__这里是一级标题
+========
+作者：泰迪__这里是二级标题
+-------
+
+### 这里是三级标题 ###
+
+#### 四级标题
+
+******************
+正文来了：
+这里是第一段落。
+
+空行表示另外一行。
+
+******************
+我是*真的*、_真的_、**真的**、 __真的__ 很爱你。
+\*\*和\_\_表示强调。
+
+******************
+我祝大家：
+
+* 身体健康
+* 工作愉快
+* 合家平安
+******************
+
+以下我想对大家说：
+
+1. 我是teddy
+2. 我是男的
+3. 这个文档主要是记录markdown的语法
+
+******************
+这是我的[博客](http://teddywu.info "吴炜恒的博客")
+
+这是我的[博客地址][吴炜恒的博客地址]另外的一种写法
+
+这里是我的照片：
+
+![泰迪](/images/teddy/teddy1.jpg "泰迪")
+
+*****************
+上面是分割线，下面讲讲代码的写法
+
+其实只要tab缩进了，或者4个空格缩进了就是代码区域了，比如
+
+    var cnt = 0;
+    function add(a, b){
+         return a+b;
+    }
+    var six = add(cnt,5);
+
+用空格缩进的代码：
+    @mixin shadow-box($border: #fff .5em solid, $shadow: rgba(#000, .15) 0 1px 4px, $border-radius: .3em) {
+      @include border-radius($border-radius);
+      @include box-shadow($shadow);
+      @include box-sizing(border-box);
+      border: $border;
+    }
+
+如果想行内使用的话可以用这个符号\`把代码包住，比如： `printfUI()`也可以
+
+******************
+子曾经说过：
+&gt; ###《论语》
+&gt; 学而时习之，不亦乐乎。
+&gt;
+&gt; 温故而知新，可以为师矣。
+
+[吴炜恒的博客地址]: http://teddywu.info
+</code></pre>
+
+<hr />
+
+<p>下面就是转码后的效果</p>
+
+<h1>Markdown语法测试__这里是一级标题</h1>
+
+<h2>作者：泰迪__这里是二级标题</h2>
+
+<h3>这里是三级标题</h3>
+
+<h4>四级标题</h4>
+
+<hr />
+
+<p>正文来了：
+这里是第一段落。</p>
+
+<p>空行表示另外一行。</p>
+
+<hr />
+
+<p>我是<em>真的</em>、<em>真的</em>、<strong>真的</strong>、 <strong>真的</strong> 很爱你。
+**和__表示强调。</p>
+
+<hr />
+
+<p>我祝大家：</p>
+
+<ul>
+<li>身体健康</li>
+<li>工作愉快</li>
+<li>合家平安</li>
+</ul>
+
+
+<hr />
+
+<p>以下我想对大家说：</p>
+
+<ol>
+<li>我是teddy</li>
+<li>我是男的</li>
+<li>这个文档主要是记录markdown的语法</li>
+</ol>
+
+
+<hr />
+
+<p>这是我的<a href="http://teddywu.info" title="吴炜恒的博客">博客</a></p>
+
+<p>这是我的<a href="http://teddywu.info">博客地址</a>另外的一种写法</p>
+
+<p>这里是我的照片：</p>
+
+<p><img src="/images/teddy/teddy1.jpg" title="泰迪" alt="泰迪" /></p>
+
+<hr />
+
+<p>上面是分割线，下面讲讲代码的写法</p>
+
+<p>其实只要tab缩进了，或者4个空格缩进了就是代码区域了，比如</p>
+
+<pre><code>var cnt = 0;
+function add(a, b){
+     return a+b;
+}
+var six = add(cnt,5);
+</code></pre>
+
+<p>用空格缩进的代码：</p>
+
+<pre><code>@mixin shadow-box($border: #fff .5em solid, $shadow: rgba(#000, .15) 0 1px 4px, $border-radius: .3em) {
+  @include border-radius($border-radius);
+  @include box-shadow($shadow);
+  @include box-sizing(border-box);
+  border: $border;
+}
+</code></pre>
+
+<p>如果想行内使用的话可以用这个符号`把代码包住，比如： <code>printfUI()</code>也可以</p>
+
+<hr />
+
+<p>子曾经说过：</p>
+
+<blockquote><h3>《论语》</h3>
+
+<p>学而时习之，不亦乐乎。</p>
+
+<p>温故而知新，可以为师矣。</p></blockquote>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-10T22:26:00+08:00" pubdate data-updated="true">2013年02月10日 22:26</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/markdown/'>markdown</a>
+
+
+</div>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">﻿<p>
+  Copyright &copy; 2013 - Teddywu -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>& <a href="http://jekyllrb.com/">jekyll</a></span>
+</p>
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'teddywu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://teddywuinfo.github.com/blog/2013/02/10/markdown-example/';
+        var disqus_url = 'http://teddywuinfo.github.com/blog/2013/02/10/markdown-example/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-38370748-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

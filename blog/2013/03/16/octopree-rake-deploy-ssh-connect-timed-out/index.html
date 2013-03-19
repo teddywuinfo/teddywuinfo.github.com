@@ -1,0 +1,281 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>[bug 分享] octopress rake deploy 时无法连接ssh - Teddywu</title>
+	<meta name="author" content="Teddywu">
+
+	
+	<meta name="description" content="用octopress在公司写好博客，打算发布，卡在rake deploy 的时候，问题如下： C:\Users\teddywu.TENCENT\devkit\octopress\_deploy&gt;rake deploy
+(in C:/Users/teddywu.TENCENT/devkit/ &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Teddywu" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.ico" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Teddywu</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">最近博客</a></li>
+	<li><a href="/blog/archives">博客列表</a></li>
+	<li><a href="/blog/about">关于泰迪</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">最近博客</a></li>
+	<li><a href="/blog/archives">博客列表</a></li>
+	<li><a href="/blog/about">关于泰迪</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:teddywuinfo.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:teddywuinfo.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">[Bug 分享] Octopress Rake Deploy 时无法连接ssh</h2>
+	<div class="entry-content"><p>用octopress在公司写好博客，打算发布，卡在rake deploy 的时候，问题如下：</p>
+
+<!-- more -->
+
+
+<pre><code>C:\Users\teddywu.TENCENT\devkit\octopress\_deploy&gt;rake deploy
+(in C:/Users/teddywu.TENCENT/devkit/octopress)
+## Deploying branch to Github Pages
+rm -rf _deploy/assets
+rm -rf _deploy/atom.xml
+rm -rf _deploy/blog
+rm -rf _deploy/CNAME
+rm -rf _deploy/favicon.ico
+rm -rf _deploy/favicon.png
+rm -rf _deploy/font
+rm -rf _deploy/images
+rm -rf _deploy/index.html
+rm -rf _deploy/javascripts
+rm -rf _deploy/robots.txt
+rm -rf _deploy/sitemap.xml
+rm -rf _deploy/stylesheets
+
+## copying public to _deploy
+cp -r public/. _deploy
+cd _deploy
+
+## Commiting: Site updated at 2013-03-16 10:44:32 UTC
+# On branch master
+nothing to commit, working directory clean
+
+## Pushing generated _deploy website
+ssh: connect to host ssh.github.com port 443: Bad file number
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+## Github Pages deploy complete
+cd -
+
+C:\Users\teddywu.TENCENT\devkit\octopress\_deploy&gt;
+</code></pre>
+
+<p>错误提示：</p>
+
+<pre><code>ssh: connect to host ssh.github.com port 443: Bad file number
+fatal: Could not read from remote repository.
+</code></pre>
+
+<p>我猜，是不是由于网络问题不能通过ssh访问git呢？那我先判断下是不是ssh访问不了git..我重新在本机使用Git创建SSH Key</p>
+
+<pre><code> ssh-keygen -C "username@email.com" -t rsa
+</code></pre>
+
+<p>并按照<a href="http://www.cnblogs.com/javac/archive/2012/07/31/2617432.html" title="创建ssh key">这里</a>的方法创建ssh key 并连接到github。一测试，发现：</p>
+
+<pre><code>teddywu@TEDDYWU-PC4 /C/Users/teddywu/devkit/octopress (source)
+$ ssh -v git@github.com
+OpenSSH_4.6p1, OpenSSL 0.9.8e 23 Feb 2007
+debug1: Reading configuration data /c/Users/teddywu.TENCENT/.ssh/config
+debug1: Applying options for github.com
+debug1: Connecting to ssh.github.com [207.97.227.248] port 443.
+debug1: connect to address 207.97.227.248 port 443: Attempt to connect timed out
+without establishing a connection
+ssh: connect to host ssh.github.com port 443: Bad file number
+teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress (source)
+$
+</code></pre>
+
+<p>我知道是我的ssh出问题了，估计是公司网络禁用了ssh。幸好git可以通过https、git、ssh三种协议来读写。公司网络https是可以走的，那我只需要更改下octopress 提交git 的方式。我在<code>Octopress</code>目录下全文搜索<code>deploy</code>。找到了可疑文件<code>Rakefile</code>文件，打开看下，发现<code>rake preview</code>、<code>rake generate</code>、<code>rake deploy</code>等脚本其实都写在这。于是我看了下 <code>rake deploy</code> 和<code>rake  setup_github_pages</code>的实现。</p>
+
+<p>setup_github_pages的代码片段：</p>
+
+<pre><code>cd "#{deploy_dir}" do
+    system "git init"
+    system "echo 'My Octopress Page is coming soon &amp;hellip;' &gt; index.html"
+    system "git add ."
+    system "git commit -m \"Octopress init\""
+    system "git branch -m gh-pages" unless branch == 'master'
+    system "git remote add origin #{repo_url}"
+    rakefile = IO.read(__FILE__)
+    rakefile.sub!(/deploy_branch(\s*)=(\s*)(["'])[\w-]*["']/, "deploy_branch\\1=\\2\\3#{branch}\\3")
+    rakefile.sub!(/deploy_default(\s*)=(\s*)(["'])[\w-]*["']/, "deploy_default\\1=\\2\\3push\\3")
+    File.open(__FILE__, 'w') do |f|
+      f.write rakefile
+    end
+end
+</code></pre>
+
+<p>发现在<code>setup_github_pages</code> 的时候，在<code>_deploy</code>文件夹里面创建了一个新的git仓库，并以用户提交的ssh url 作为名为origin 的远程库的url路径。那么就好办了。其中一个解决办法是，直接修改origin远程库的url路径为Https协议就好了 :</p>
+
+<pre><code>teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress (source)
+$ cd _deploy/
+teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress/_deploy (master)
+$ git remote rm origin
+teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress/_deploy (master)
+$ git remote add origin https://github.com/teddywuinfo/teddywuinfo.github.com.g
+it
+teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress/_deploy (master)
+$ git remote -v
+origin  https://github.com/teddywuinfo/teddywuinfo.github.com.git (fetch)
+origin  https://github.com/teddywuinfo/teddywuinfo.github.com.git (push)
+teddywu@TEDDYWU-PC4 /C/Users/teddywu.TENCENT/devkit/octopress/_deploy (master)
+$
+</code></pre>
+
+<p>至此便可以通过https协议读写github，但麻烦的是每次都需要输入用户名和密码。但没办法啦不支持ssh，也只能这样了。</p>
+
+<p>(完)</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-16T19:42:00+08:00" pubdate data-updated="true">2013年03月16日 19:42</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/bad-file-number/'>Bad file number</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/rake-deploy/'>rake deploy</a>, <a class='category' href='/blog/categories/ssh/'>ssh</a>
+
+
+</div>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">﻿<p>
+  Copyright &copy; 2013 - Teddywu -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>& <a href="http://jekyllrb.com/">jekyll</a></span>
+</p>
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'teddywu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://teddywuinfo.github.com/blog/2013/03/16/octopree-rake-deploy-ssh-connect-timed-out/';
+        var disqus_url = 'http://teddywuinfo.github.com/blog/2013/03/16/octopree-rake-deploy-ssh-connect-timed-out/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-38370748-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
