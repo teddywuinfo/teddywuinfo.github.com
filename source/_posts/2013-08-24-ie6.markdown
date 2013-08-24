@@ -1,0 +1,12 @@
+---
+layout: post
+title: "ie6 bug 收集"
+date: 2013-08-24 15:50
+comments: true
+categories: [ie6]
+---
+
+* ie6 下空div height 100% 无效
+* ie6 position fixed无效
+* ie6 overflow hidden 失效 解决方法：把父节点的position设为"relative"
+
