@@ -4,7 +4,7 @@
   <title><![CDATA[Teddywu]]></title>
   <link href="http://teddywuinfo.github.com/atom.xml" rel="self"/>
   <link href="http://teddywuinfo.github.com/"/>
-  <updated>2013-03-21T15:21:02+08:00</updated>
+  <updated>2013-08-24T15:54:03+08:00</updated>
   <id>http://teddywuinfo.github.com/</id>
   <author>
     <name><![CDATA[Teddywu]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ie6 bug 收集]]></title>
+    <link href="http://teddywuinfo.github.com/blog/2013/08/24/ie6/"/>
+    <updated>2013-08-24T15:50:00+08:00</updated>
+    <id>http://teddywuinfo.github.com/blog/2013/08/24/ie6</id>
+    <content type="html"><![CDATA[<ul>
+<li>ie6 下空div height 100% 无效</li>
+<li>ie6 position fixed无效</li>
+<li>ie6 overflow hidden 失效 解决方法：把父节点的position设为&#8221;relative&#8221;</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[[WP8开发] 在wp8中如何实现富文本显示（图文混排）？]]></title>
