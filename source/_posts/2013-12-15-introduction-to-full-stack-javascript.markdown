@@ -28,6 +28,8 @@ categories:
 
 在PHP和ASP年代的早期，那时候模版引擎还是一个概念，开发者把应用程序代码内嵌到HTML里面。像这样的代码并非罕见。
 
+
+``` javascript 
 	<script>
 	    <?php
 	        if ($login == true){
@@ -37,9 +39,11 @@ categories:
 	        }
 	    ?>
 	</script> 
+```
 
 甚至有：
 
+``` javascript
 	<script>
 	    var users_deleted = [];
 	    <?php
@@ -51,9 +55,11 @@ categories:
 	        }
 	    ?>
 	</script>
+```
 
 对于初学者来说，在不同语言之间存在典型的错误和令人困惑的语句，比如`for`和`foreach`。而且，甚至在现在，在前台和后台写这样的代码来处理相同的数据结构，是让人很不爽的(除非，你有一个开发团队，有人专门负责前台，有专门负责后台。如果这样的话，就算他们知道对方在做什么，也很难读懂对方的代码。)：
 
+``` php
     <?php
         $arr = array("apples", "bananas", "oranges", "strawberries"),
         $obj = array();
@@ -75,6 +81,7 @@ categories:
             }
         });
     </script>
+```
 
 最初尝试统一前后台语言的方案，是在服务器端创建前端组件，然后把组件编译成JavaScrpt。但实际不如预期，大部分那样的项目失败了（比如 ASP MVC 替代 [ASP.NET Web form](http://stackoverflow.com/questions/102558/biggest-advantage-to-using-asp-net-mvc-vs-web-forms)，[GWT](http://www.gwtproject.org/overview.html)逐渐被[Polymer](http://www.2ality.com/2013/05/google-polymer.html)替代）。但这个想法其实不赖，因为从本质上说，前后台统一语言，然我们可以重用组件和*资源*（这个是关键字）。
 
@@ -86,17 +93,21 @@ JavaScript实际上[一发明出来的时候是用于网景企业服务器端的
 
 ** Node.js 从此改变了我们处理I/O请求的方式。** 作为Web开发者。我们很熟悉这样访问数据库（I/O）：
 
+``` javascript
 	var resultset = db.query("SELECT * FROM 'table'");
 	drawTable(resultset);
+```
 
 这一行实际上会阻塞你的代码，因为你的程序会停止运行直到你的数据库返回数据 *resultset*。在此期间，你的架构会提供线程来提高并发性。
 
 有了Node.js和非阻塞性编程，我们对程序流程有了更多的控制。现在（你仍然可以使用线程提高并发），你可以告诉程序在请求数据的同时，你可以做什么，还有数据到达之后，要怎么处理。
 
+``` javascript
 	db.query("SELECT * FROM 'table'", function	resultset){
 	   drawTable(resultset);
 	});
 	doSomeThingElse();
+```
 
 通过这个代码片段，我们可以看到两段程序流程：第一个在发送数据库查询请求之后，立刻执行；第二个在我们受到返回*resultSet*之后执行。这是一个优雅又强大的管理并发性的方案。就像他们说的：“除了你的代码，所有都是并发执行。”因此，你的代码很容易编写、阅读、理解和维护，不用担心你的程序流程失去控制。
 
@@ -215,19 +226,25 @@ Chai 是一个灵活的断言库，让你拥有三种主要的断言风格：
 
 这是经典TDD的断言风格：
 
+``` javascript assert  
 	assert.equal(variable, "value");
+```
 
 * `expect`
 
 这种链式风格最常见于BDD：
 
+``` javascript expect  
 	expect(variable).to.equal("value");
+```
 
 * `should`
 
 这也用于BDD，但我更喜欢`expect`因为`should`经常重复（比如行为说明文档“it(should do something...)”），例如：
 
+``` javascript should
     variable.should.equal("value");
+```
 
 Chai和Mocha结合很完美。用这两个库你可以用TDD、BDD或者你想用的方式去写你的测试用例。
 
@@ -243,7 +260,7 @@ RequireJS 让你拥抱[dependency injection](http://merrickchristensen.com/artic
 
 在`main.js`:
 
-
+``` javascript 
     define(
       ["App","module"],
       function(App, Module){
@@ -256,9 +273,11 @@ RequireJS 让你拥抱[dependency injection](http://merrickchristensen.com/artic
           return app;
       }
     );
+```
 
 在`module.js`：
 
+``` javascript 
     define([],
       function(){
           var module = function(options){
@@ -270,6 +289,7 @@ RequireJS 让你拥抱[dependency injection](http://merrickchristensen.com/artic
           return module
       }
     );
+```
 
 注意到，我们要让模块依赖`main.js`的话，比如创建循环引用。
 
