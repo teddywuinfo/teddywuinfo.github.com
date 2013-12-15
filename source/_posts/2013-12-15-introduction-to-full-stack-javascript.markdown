@@ -11,7 +11,7 @@ categories:
 现在，要开发web应用，你有非常多技术方案可以选择，而你想要选择最合适的一种，这种方案必须敏捷快速，持续迭代，高效可靠等等。你想要这种技术精简和灵活，而且无论是短期还是长期都帮助你成功。但这些技术方案不总是那么容易找到。
 
 据我所知，[JavaScript一波流（full-stack JavaScript）](http://theothersideofcode.com/building-full-javascript-application-stack)满足所有要求。你可能之前也听说过，觉得它没用，甚至和朋友辩论。但你自己有真的试过吗？在本文，我会给你详细介绍一波流JavaScript，以及它到底是怎么运作的。
-
+<!-- more -->
 给一个概要图：
 
 
