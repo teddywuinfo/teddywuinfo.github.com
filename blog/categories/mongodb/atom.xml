@@ -1,81 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE HTML>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>[翻译]JavaScript一波流 - Teddywu</title>
-	<meta name="author" content="Teddywu">
-
-	
-	<meta name="description" content="原文来自An Introduction To Full-Stack JavaScript 现在，要开发web应用，你有非常多技术方案可以选择，而你想要选择最合适的一种，这种方案必须敏捷快速，持续迭代，高效可靠等等。你想要这种技术精简和灵活，而且无论是短期还是长期都帮助你成功。 &hellip;">
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<link href="/atom.xml" rel="alternate" title="Teddywu" type="application/atom+xml">
-	<link rel="canonical" href="">
-	<link href="/favicon.ico" rel="shortcut icon">
-	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
-</head>
-
-<body>
-	<header id="header" class="inner"><h1><a href="/">Teddywu</a></h1>
-<nav id="main-nav"><ul class="main">
-	<li><a href="/">最近博客</a></li>
-	<li><a href="/blog/archives">博客列表</a></li>
-	<li><a href="/blog/about">关于泰迪</a></li>
-</ul>
-</nav>
-<nav id="mobile-nav">
-	<div class="alignleft menu">
-		<a class="button">Menu</a>
-		<div class="container"><ul class="main">
-	<li><a href="/">最近博客</a></li>
-	<li><a href="/blog/archives">博客列表</a></li>
-	<li><a href="/blog/about">关于泰迪</a></li>
-</ul>
-</div>
-	</div>
-	<div class="alignright search">
-		<a class="button"></a>
-		<div class="container">
-			<form action="http://google.com/search" method="get">
-				<input type="text" name="q" results="0">
-				<input type="hidden" name="q" value="site:teddywuinfo.github.com">
-			</form>
-		</div>
-	</div>
-</nav>
-<nav id="sub-nav" class="alignright">
-	<div class="social">
-		
-		
-		
-		
+  <title><![CDATA[Category: MongoDB | Teddywu]]></title>
+  <link href="http://teddywuinfo.github.com/blog/categories/mongodb/atom.xml" rel="self"/>
+  <link href="http://teddywuinfo.github.com/"/>
+  <updated>2013-12-16T00:23:44+08:00</updated>
+  <id>http://teddywuinfo.github.com/</id>
+  <author>
+    <name><![CDATA[Teddywu]]></name>
     
-		
-		
-		
-		
-		
-		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
-		
-	</div>
-	<form class="search" action="http://google.com/search" method="get">
-		<input class="alignright" type="text" name="q" results="0">
-		<input type="hidden" name="q" value="site:teddywuinfo.github.com">
-	</form>
-</nav>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
-</header>
-	
-		
-	
-	<div id="content" class="inner"><article class="post">
-	<h2 class="title">[翻译]JavaScript一波流</h2>
-	<div class="entry-content"><p>原文来自<a href="http://coding.smashingmagazine.com/2013/11/21/introduction-to-full-stack-javascript/#more-129418">An Introduction To Full-Stack JavaScript</a></p>
+  
+  <entry>
+    <title type="html"><![CDATA[[翻译]JavaScript一波流]]></title>
+    <link href="http://teddywuinfo.github.com/blog/2013/12/15/introduction-to-full-stack-javascript/"/>
+    <updated>2013-12-15T10:54:00+08:00</updated>
+    <id>http://teddywuinfo.github.com/blog/2013/12/15/introduction-to-full-stack-javascript</id>
+    <content type="html"><![CDATA[<p>原文来自<a href="http://coding.smashingmagazine.com/2013/11/21/introduction-to-full-stack-javascript/#more-129418">An Introduction To Full-Stack JavaScript</a></p>
 
 <p>现在，要开发web应用，你有非常多技术方案可以选择，而你想要选择最合适的一种，这种方案必须敏捷快速，持续迭代，高效可靠等等。你想要这种技术精简和灵活，而且无论是短期还是长期都帮助你成功。但这些技术方案不总是那么容易找到。</p>
 
@@ -96,100 +39,68 @@
 
 <p>在PHP和ASP年代的早期，那时候模版引擎还是一个概念，开发者把应用程序代码内嵌到HTML里面。像这样的代码并非罕见。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
-</span><span class='line'>    <span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">$login</span> <span class="o">==</span> <span class="kc">true</span><span class="p">){</span>
-</span><span class='line'>    <span class="o">?&gt;</span>
-</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Welcome&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="o">?&gt;</span>
-</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt; </span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` javascript</p>
 
+<pre><code>&lt;script&gt;
+    &lt;?php
+        if ($login == true){
+    ?&gt;
+    alert("Welcome");
+    &lt;?php
+        }
+    ?&gt;
+&lt;/script&gt; 
+</code></pre>
+
+<p>```</p>
 
 <p>甚至有：</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">users_deleted</span> <span class="o">=</span> <span class="p">[];</span>
-</span><span class='line'>    <span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'>        <span class="nx">$arr_ids</span> <span class="o">=</span> <span class="nx">array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
-</span><span class='line'>        <span class="nx">foreach</span><span class="p">(</span><span class="nx">$arr_ids</span> <span class="nx">as</span> <span class="nx">$value</span><span class="p">){</span>
-</span><span class='line'>    <span class="o">?&gt;</span>
-</span><span class='line'>    <span class="nx">users_deleted</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s2">&quot;&lt;php&gt;&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="o">?&gt;</span>
-</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` javascript</p>
 
+<pre><code>&lt;script&gt;
+    var users_deleted = [];
+    &lt;?php
+        $arr_ids = array(1,2,3,4);
+        foreach($arr_ids as $value){
+    ?&gt;
+    users_deleted.push("&lt;php&gt;");
+    &lt;?php
+        }
+    ?&gt;
+&lt;/script&gt;
+</code></pre>
+
+<p>```</p>
 
 <p>对于初学者来说，在不同语言之间存在典型的错误和令人困惑的语句，比如<code>for</code>和<code>foreach</code>。而且，甚至在现在，在前台和后台写这样的代码来处理相同的数据结构，是让人很不爽的(除非，你有一个开发团队，有人专门负责前台，有专门负责后台。如果这样的话，就算他们知道对方在做什么，也很难读懂对方的代码。)：</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>    <span class="nv">$arr</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s2">&quot;apples&quot;</span><span class="p">,</span> <span class="s2">&quot;bananas&quot;</span><span class="p">,</span> <span class="s2">&quot;oranges&quot;</span><span class="p">,</span> <span class="s2">&quot;strawberries&quot;</span><span class="p">),</span>
-</span><span class='line'>    <span class="nv">$obj</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
-</span><span class='line'>    <span class="nv">$i</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">foreach</span><span class="p">(</span><span class="nv">$arr</span> <span class="k">as</span> <span class="nv">$fruit</span><span class="p">){</span>
-</span><span class='line'>        <span class="nv">$obj</span><span class="p">[</span><span class="nv">$fruit</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$i</span><span class="p">;</span>
-</span><span class='line'>        <span class="nv">$i</span> <span class="o">+=</span> <span class="mi">10</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">echo</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
-</span><span class='line'><span class="cp">?&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">&lt;script&gt;</span>
-</span><span class='line'><span class="x">    $.ajax({</span>
-</span><span class='line'><span class="x">        url:&quot;/json.php&quot;,</span>
-</span><span class='line'><span class="x">        success: function(data){</span>
-</span><span class='line'><span class="x">            var x;</span>
-</span><span class='line'><span class="x">            for(x in data){</span>
-</span><span class='line'><span class="x">                alert(&quot;fruit:&quot; + x + &quot; points:&quot; + data[x]);</span>
-</span><span class='line'><span class="x">            }</span>
-</span><span class='line'><span class="x">        }</span>
-</span><span class='line'><span class="x">    });</span>
-</span><span class='line'><span class="x">&lt;/script&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` php</p>
 
+<pre><code>&lt;?php
+    $arr = array("apples", "bananas", "oranges", "strawberries"),
+    $obj = array();
+    $i = 10;
+    foreach($arr as $fruit){
+        $obj[$fruit] = $i;
+        $i += 10;
+    }
+    echo json_encode(obj);
+?&gt;
+&lt;script&gt;
+    $.ajax({
+        url:"/json.php",
+        success: function(data){
+            var x;
+            for(x in data){
+                alert("fruit:" + x + " points:" + data[x]);
+            }
+        }
+    });
+&lt;/script&gt;
+</code></pre>
+
+<p>```</p>
 
 <p>最初尝试统一前后台语言的方案，是在服务器端创建前端组件，然后把组件编译成JavaScrpt。但实际不如预期，大部分那样的项目失败了（比如 ASP MVC 替代 <a href="http://stackoverflow.com/questions/102558/biggest-advantage-to-using-asp-net-mvc-vs-web-forms">ASP.NET Web form</a>，<a href="http://www.gwtproject.org/overview.html">GWT</a>逐渐被<a href="http://www.2ality.com/2013/05/google-polymer.html">Polymer</a>替代）。但这个想法其实不赖，因为从本质上说，前后台统一语言，然我们可以重用组件和<em>资源</em>（这个是关键字）。</p>
 
@@ -201,27 +112,27 @@
 
 <p><strong> Node.js 从此改变了我们处理I/O请求的方式。</strong> 作为Web开发者。我们很熟悉这样访问数据库（I/O）：</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">resultset</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;table&#39;&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">drawTable</span><span class="p">(</span><span class="nx">resultset</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` javascript</p>
 
+<pre><code>var resultset = db.query("SELECT * FROM 'table'");
+drawTable(resultset);
+</code></pre>
+
+<p>```</p>
 
 <p>这一行实际上会阻塞你的代码，因为你的程序会停止运行直到你的数据库返回数据 <em>resultset</em>。在此期间，你的架构会提供线程来提高并发性。</p>
 
 <p>有了Node.js和非阻塞性编程，我们对程序流程有了更多的控制。现在（你仍然可以使用线程提高并发），你可以告诉程序在请求数据的同时，你可以做什么，还有数据到达之后，要怎么处理。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">db</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;table&#39;&quot;</span><span class="p">,</span> <span class="kd">function</span>  <span class="nx">resultset</span><span class="p">){</span>
-</span><span class='line'>   <span class="nx">drawTable</span><span class="p">(</span><span class="nx">resultset</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'><span class="nx">doSomeThingElse</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` javascript</p>
 
+<pre><code>db.query("SELECT * FROM 'table'", function  resultset){
+   drawTable(resultset);
+});
+doSomeThingElse();
+</code></pre>
+
+<p>```</p>
 
 <p>通过这个代码片段，我们可以看到两段程序流程：第一个在发送数据库查询请求之后，立刻执行；第二个在我们受到返回<em>resultSet</em>之后执行。这是一个优雅又强大的管理并发性的方案。就像他们说的：“除了你的代码，所有都是并发执行。”因此，你的代码很容易编写、阅读、理解和维护，不用担心你的程序流程失去控制。</p>
 
@@ -305,7 +216,7 @@
 
 <p><a href="http://www.toptal.com/backbone-js/">Backbone.js</a>只提供刚刚够用的东西，让你创建一个简单的SPA.Ember，是一个完整、专业的框架让你创建SPA。它有很多额外的功能，但这需要花更多时间学习。（你可以看更多<a href="http://coding.smashingmagazine.com/2013/11/07/an-in-depth-introduction-to-ember-js/">关于Ember.js的资料</a>。）</p>
 
-<p>根据你的应用的复杂度来决定。简单地说，你要在“features used” 和 &#8220;features available&#8221; 两者之间取得合适的点。这是个重要的提示。</p>
+<p>根据你的应用的复杂度来决定。简单地说，你要在“features used” 和 "features available" 两者之间取得合适的点。这是个重要的提示。</p>
 
 <p>写样式也是一项挑战，当然，我们也可以用框架来解决。对于CSS，<a href="http://twitter.github.io/bootstrap/">Twitter Bootstrap</a> 是一个不错的选择。因为它提供了一套完整的样式，不仅可以立刻使用，也<a href="http://coding.smashingmagazine.com/2013/03/12/customizing-bootstrap/">支持自定义</a>。</p>
 
@@ -353,10 +264,12 @@
 
 <p>这是经典TDD的断言风格：</p>
 
-<figure class='code'><figcaption><span>assert  </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">variable</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` javascript assert</p>
 
+<pre><code>assert.equal(variable, "value");
+</code></pre>
+
+<p>```</p>
 
 <ul>
 <li><code>expect</code></li>
@@ -365,22 +278,26 @@
 
 <p>这种链式风格最常见于BDD：</p>
 
-<figure class='code'><figcaption><span>expect  </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">variable</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` javascript expect</p>
 
+<pre><code>expect(variable).to.equal("value");
+</code></pre>
+
+<p>```</p>
 
 <ul>
 <li><code>should</code></li>
 </ul>
 
 
-<p>这也用于BDD，但我更喜欢<code>expect</code>因为<code>should</code>经常重复（比如行为说明文档“it(should do something&#8230;)”），例如：</p>
+<p>这也用于BDD，但我更喜欢<code>expect</code>因为<code>should</code>经常重复（比如行为说明文档“it(should do something...)”），例如：</p>
 
-<figure class='code'><figcaption><span>should</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">variable</span><span class="p">.</span><span class="nx">should</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` javascript should</p>
 
+<pre><code>variable.should.equal("value");
+</code></pre>
+
+<p>```</p>
 
 <p>Chai和Mocha结合很完美。用这两个库你可以用TDD、BDD或者你想用的方式去写你的测试用例。</p>
 
@@ -396,59 +313,42 @@
 
 <p>在<code>main.js</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">define</span><span class="p">(</span>
-</span><span class='line'>  <span class="p">[</span><span class="s2">&quot;App&quot;</span><span class="p">,</span><span class="s2">&quot;module&quot;</span><span class="p">],</span>
-</span><span class='line'>  <span class="kd">function</span><span class="p">(</span><span class="nx">App</span><span class="p">,</span> <span class="nx">Module</span><span class="p">){</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Module</span><span class="p">({</span>
-</span><span class='line'>          <span class="nx">app</span><span class="o">:</span> <span class="nx">app</span>
-</span><span class='line'>      <span class="p">})</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="k">return</span> <span class="nx">app</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` javascript</p>
 
+<pre><code>define(
+  ["App","module"],
+  function(App, Module){
+      var app = new App();
+
+      var module = new Module({
+          app: app
+      })
+
+      return app;
+  }
+);
+</code></pre>
+
+<p>```</p>
 
 <p>在<code>module.js</code>：</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">define</span><span class="p">([],</span>
-</span><span class='line'>  <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">){</span>
-</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">app</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">app</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">};</span>
-</span><span class='line'>      <span class="nx">module</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">useApp</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">performAction</span><span class="p">();</span>
-</span><span class='line'>      <span class="p">};</span>
-</span><span class='line'>      <span class="k">return</span> <span class="nx">module</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` javascript</p>
 
+<pre><code>define([],
+  function(){
+      var module = function(options){
+          this.app = options.app;
+      };
+      module.prototype.useApp = function(){
+          this.app.performAction();
+      };
+      return module
+  }
+);
+</code></pre>
+
+<p>```</p>
 
 <p>注意到，我们要让模块依赖<code>main.js</code>的话，比如创建循环引用。</p>
 
@@ -459,97 +359,7 @@
 <h2>结论</h2>
 
 <p>JavaScript一波流不能解决所有问题。但它的社区和技术可以肯定对你有所帮助。通过JavaScript，你可以创建扩展性强，可维护的应用，并统一用一种语言。这绝B是未来的趋势啊。</p>
-</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2013-12-15T10:54:00+08:00" pubdate data-updated="true">2013年12月15日 10:54</time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/grunt/'>Grunt</a>, <a class='category' href='/blog/categories/mongodb/'>MongoDB</a>, <a class='category' href='/blog/categories/spa/'>SPA</a>, <a class='category' href='/blog/categories/full-stack/'>full-stack</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/node-js/'>node.js</a>
-
-
-</div>
-	
-</div></article>
-
-	<div class="share">
-	<div class="addthis_toolbox addthis_default_style ">
-	
-	
-	
-	<a class="addthis_counter addthis_pill_style"></a>
-	</div>
-  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
-</div>
-
-
-
-<section id="comment">
-    <h2 class="title">Comments</h2>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-</section>
-</div>
-	<footer id="footer" class="inner">﻿<p>
-  Copyright &copy; 2013 - Teddywu -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>& <a href="http://jekyllrb.com/">jekyll</a></span>
-</p>
-
-</footer>
-	<script src="/javascripts/slash.js"></script>
-<script src="/javascripts/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-	$('.fancybox').fancybox();
-})(jQuery);
-</script> <!-- Delete or comment this line to disable Fancybox -->
-
-
-<script type="text/javascript">
-      var disqus_shortname = 'teddywu';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://teddywuinfo.github.com/blog/2013/12/15/introduction-to-full-stack-javascript/';
-        var disqus_url = 'http://teddywuinfo.github.com/blog/2013/12/15/introduction-to-full-stack-javascript/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-	<script type="text/javascript">
-		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-38370748-1']);
-		_gaq.push(['_trackPageview']);
-
-		(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		})();
-	</script>
-
-
-
-</body>
-</html>
+</feed>
