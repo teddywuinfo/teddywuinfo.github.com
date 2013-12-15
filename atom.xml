@@ -4,7 +4,7 @@
   <title><![CDATA[Teddywu]]></title>
   <link href="http://teddywuinfo.github.com/atom.xml" rel="self"/>
   <link href="http://teddywuinfo.github.com/"/>
-  <updated>2013-12-15T19:58:03+08:00</updated>
+  <updated>2013-12-16T00:16:55+08:00</updated>
   <id>http://teddywuinfo.github.com/</id>
   <author>
     <name><![CDATA[Teddywu]]></name>
@@ -14,28 +14,28 @@
 
   
   <entry>
-    <title type="html"><![CDATA[并发模型和事件轮询]]></title>
+    <title type="html"><![CDATA[[翻译]并发模型和Event Loop]]></title>
     <link href="http://teddywuinfo.github.com/blog/2013/12/15/concurrency-model-and-event-loop/"/>
     <updated>2013-12-15T19:00:00+08:00</updated>
     <id>http://teddywuinfo.github.com/blog/2013/12/15/concurrency-model-and-event-loop</id>
     <content type="html"><![CDATA[<p>原文来自《<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/EventLoop">Concurrency model and Event Loop</a>》</p>
 
-<p>JavaScript有基于“事件轮询”的并发模型。这个模型和它在其他语言，像C、Java都不太一样。</p>
+<p>JavaScript具有并发性，这个并发性是基于“event loop”的。它的这种并发性的实质和其他语言（比如C、Java）都不太一样。</p>
 
 <!-- more -->
 
 
-<h2>运行时概念</h2>
+<h2>运行时的一些概念</h2>
 
-<p>以下章节只解释原理上的模型。先忽略现代JavaScript解释引擎对此做过的优化。</p>
+<p>下面只解释原理性的东西，由于现代浏览器对这块做了许多优化，有些细节可能不太一样。</p>
 
-<h3>用图来说明</h3>
+<h3>看图</h3>
 
-<p><img src="https://developer.mozilla.org/files/4617/default.svg" alt="图1" /></p>
+<p><img src="https://developer.mozilla.org/files/4617/default.svg" alt="堆、栈、和队列" /></p>
 
 <h3>堆栈（Stack）</h3>
 
-<p>函数调用创建了frame的栈。</p>
+<p>函数间的调用形成了由函数栈帧组成的栈。如下面这个例子</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -62,19 +62,19 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>当调用 <code>g</code> 的时候，第一个frame被创建。它包含<code>g</code> 的参数和局部变量。当<code>g</code> 调用 <code>f</code>的时候，第二个frame被创建，并放在第一个frame的上面。它包含<code>f</code>的参数和局部变量。当<code>f</code> 返回的时候，最高层的frame被弹出栈（只剩下<code>g</code>这个frame），当<code>g</code>返回的时候，栈变为空。</p>
+<p>当调用 <code>g</code> 函数的时候，创建了一个函数栈帧。它就是<code>g</code>函数和它的局部变量。当<code>g</code> 调用 <code>f</code>的时候，第二个函数栈帧被创建，它放在第一个函数栈帧的上面。它就是<code>f</code>函数和它的局部变量。当<code>f</code>函数返回的时候，最上层的函数栈帧被弹出栈（只剩下<code>g</code>这个函数栈帧），当<code>g</code>返回的时候,<code>g</code>的函数栈帧被弹出栈，因此栈就为空了。</p>
 
 <h3>堆（Heap）</h3>
 
-<p>对象放在堆中。堆就是一大块没有特定结构的内存区域。对象通过对象名作为索引，与它所在的存储区域关联起来。</p>
+<p>对象是放在堆中的。堆就是指一块没有特定结构的内存区域。对象通过对象名作为索引，通过索引可以与它所在的一小块内存区域关联起来。</p>
 
 <h3>队列（Queue）</h3>
 
-<p>JavaScript运行时有一个消息队列，这些消息将要被按序执行。每一个消息与函数相关联。当栈为空，一个消息就会从消息队列中取出病执行。执行过程就是调用相关的函数（因此创建一个新的栈frame）。当栈为空时，消息继续往下执行。</p>
+<p>JavaScript运行时有一个消息队列，这些消息将要被按序执行。每一个消息与一个函数相关联。当栈为空，一个消息就会从消息队列中取出并执行。执行过程就是调用相关的函数（因此创建一个新的函数调用栈）。当栈为空时，消息继续往下执行。</p>
 
-<h1>事件轮询</h1>
+<h1>Event Loop</h1>
 
-<p>事件轮询实质上就像它的名字所指那样，它看起来像是这样的：</p>
+<p>event loop实质上就像它的名字所指那样，它看起来像是这样的：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -85,13 +85,13 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>如果当前没有的话，<code>queue.waitForMessage</code>会同步地等待消息的到来。</p>
+<p>如果当前没有消息的话，<code>queue.waitForMessage</code>会同步地等待消息的到来。</p>
 
 <h3>Run-to-completion</h3>
 
-<p>每一个消息都要执行完才能执行下一个消息。这个让程序逻辑变得清晰，无论什么时候函数被执行，它都不会pre-empted，它会全部执行完毕才让其他代码执行（可以操作函数可以控制的数据）。在C语言里面就不一样了，可能一个函数在一个线程中运行，在某个时刻被停止了，然后在另一个线程中执行其他的代码</p>
+<p>每一个消息都要执行完才能执行下一个消息。这个让程序逻辑变得清晰，无论什么时候函数被执行，它都不会pre-empted，它会全部执行完毕才让其他代码执行（可以操作函数可以控制的数据）。在C语言里面就不一样了，可能一个函数在一个线程中运行，在某个时刻被停止了，然后在另一个线程中执行其他的代码。</p>
 
-<p>这个模型的缺点就是一个消息需要很长时间去执行完毕，网页程序不能对用户的操作（比如点击、滚动）做出处理。浏览器会提示对话框，说“一个脚本需要很长时间执行”，来减轻用户的反感。一个好的实践经验就是让消息处理过程尽可能的短，如果可能的话，可以把一个消息分割成多个消息。</p>
+<p>这个模型的缺点就是一个消息需要很长时间去执行完毕，网页程序不能对用户的操作（比如点击、滚动）做出处理。浏览器弹出“正在运行一个需要长时间运行的脚本”提示框，来减轻用户的反感。一个好的实践经验就是让消息处理过程尽可能的短，如果可能的话，尽可能把一个消息分割成多个消息。</p>
 
 <h3>添加消息</h3>
 
@@ -105,9 +105,13 @@
 
 <h1>永不阻塞</h1>
 
-<p>JavaScript的事件轮询模型一个非常有趣的特性。不像其他语言，它是永远不会阻塞的。I/O处理经常会通过事件和回调来实现。因此当应用程序在等待<a href="https://developer.mozilla.org/en-US/docs/IndexedDB">IndexedDB</a>查询结果返回，或者一个<a href="https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest">XHR</a>请求返回的时候，它仍然可以执行其他事情。</p>
+<p>JavaScript的event loop模型一个非常有趣的特性。不像其他语言，它是永远不会阻塞的。I/O处理经常会通过事件和回调来实现。因此当应用程序在等待<a href="https://developer.mozilla.org/en-US/docs/IndexedDB">IndexedDB</a>查询结果返回，或者一个<a href="https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest">XHR</a>请求返回的时候，它仍然可以执行其他事情。</p>
 
 <p>有一些例外的情况，比如<code>alert</code>或者同步的XHR请求，但我们一般都会避免使用他们。然后，<a href="http://stackoverflow.com/questions/2734025/is-javascript-guaranteed-to-be-single-threaded/2734311#2734311">例外还是会存在</a>（但通常被当做是个bug来对待）。</p>
+
+<h1>更多资料：</h1>
+
+<p>一篇通俗易懂的文章《<a href="http://www.ruanyifeng.com/blog/2013/10/event_loop.html">什么是Event Loop</a>》。</p>
 ]]></content>
   </entry>
   
