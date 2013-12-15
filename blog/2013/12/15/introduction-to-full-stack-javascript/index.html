@@ -96,56 +96,100 @@
 
 <p>在PHP和ASP年代的早期，那时候模版引擎还是一个概念，开发者把应用程序代码内嵌到HTML里面。像这样的代码并非罕见。</p>
 
-<pre><code>&lt;script&gt;
-    &lt;?php
-        if ($login == true){
-    ?&gt;
-    alert("Welcome");
-    &lt;?php
-        }
-    ?&gt;
-&lt;/script&gt; 
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">$login</span> <span class="o">==</span> <span class="kc">true</span><span class="p">){</span>
+</span><span class='line'>    <span class="o">?&gt;</span>
+</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Welcome&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="o">?&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt; </span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>甚至有：</p>
 
-<pre><code>&lt;script&gt;
-    var users_deleted = [];
-    &lt;?php
-        $arr_ids = array(1,2,3,4);
-        foreach($arr_ids as $value){
-    ?&gt;
-    users_deleted.push("&lt;php&gt;");
-    &lt;?php
-        }
-    ?&gt;
-&lt;/script&gt;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">users_deleted</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>    <span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'>        <span class="nx">$arr_ids</span> <span class="o">=</span> <span class="nx">array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">foreach</span><span class="p">(</span><span class="nx">$arr_ids</span> <span class="nx">as</span> <span class="nx">$value</span><span class="p">){</span>
+</span><span class='line'>    <span class="o">?&gt;</span>
+</span><span class='line'>    <span class="nx">users_deleted</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s2">&quot;&lt;php&gt;&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="o">?&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>对于初学者来说，在不同语言之间存在典型的错误和令人困惑的语句，比如<code>for</code>和<code>foreach</code>。而且，甚至在现在，在前台和后台写这样的代码来处理相同的数据结构，是让人很不爽的(除非，你有一个开发团队，有人专门负责前台，有专门负责后台。如果这样的话，就算他们知道对方在做什么，也很难读懂对方的代码。)：</p>
 
-<pre><code>&lt;?php
-    $arr = array("apples", "bananas", "oranges", "strawberries"),
-    $obj = array();
-    $i = 10;
-    foreach($arr as $fruit){
-        $obj[$fruit] = $i;
-        $i += 10;
-    }
-    echo json_encode(obj);
-?&gt;
-&lt;script&gt;
-    $.ajax({
-        url:"/json.php",
-        success: function(data){
-            var x;
-            for(x in data){
-                alert("fruit:" + x + " points:" + data[x]);
-            }
-        }
-    });
-&lt;/script&gt;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>    <span class="nv">$arr</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s2">&quot;apples&quot;</span><span class="p">,</span> <span class="s2">&quot;bananas&quot;</span><span class="p">,</span> <span class="s2">&quot;oranges&quot;</span><span class="p">,</span> <span class="s2">&quot;strawberries&quot;</span><span class="p">),</span>
+</span><span class='line'>    <span class="nv">$obj</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+</span><span class='line'>    <span class="nv">$i</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">foreach</span><span class="p">(</span><span class="nv">$arr</span> <span class="k">as</span> <span class="nv">$fruit</span><span class="p">){</span>
+</span><span class='line'>        <span class="nv">$obj</span><span class="p">[</span><span class="nv">$fruit</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$i</span><span class="p">;</span>
+</span><span class='line'>        <span class="nv">$i</span> <span class="o">+=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">echo</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'><span class="cp">?&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;script&gt;</span>
+</span><span class='line'><span class="x">    $.ajax({</span>
+</span><span class='line'><span class="x">        url:&quot;/json.php&quot;,</span>
+</span><span class='line'><span class="x">        success: function(data){</span>
+</span><span class='line'><span class="x">            var x;</span>
+</span><span class='line'><span class="x">            for(x in data){</span>
+</span><span class='line'><span class="x">                alert(&quot;fruit:&quot; + x + &quot; points:&quot; + data[x]);</span>
+</span><span class='line'><span class="x">            }</span>
+</span><span class='line'><span class="x">        }</span>
+</span><span class='line'><span class="x">    });</span>
+</span><span class='line'><span class="x">&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>最初尝试统一前后台语言的方案，是在服务器端创建前端组件，然后把组件编译成JavaScrpt。但实际不如预期，大部分那样的项目失败了（比如 ASP MVC 替代 <a href="http://stackoverflow.com/questions/102558/biggest-advantage-to-using-asp-net-mvc-vs-web-forms">ASP.NET Web form</a>，<a href="http://www.gwtproject.org/overview.html">GWT</a>逐渐被<a href="http://www.2ality.com/2013/05/google-polymer.html">Polymer</a>替代）。但这个想法其实不赖，因为从本质上说，前后台统一语言，然我们可以重用组件和<em>资源</em>（这个是关键字）。</p>
 
@@ -157,19 +201,27 @@
 
 <p><strong> Node.js 从此改变了我们处理I/O请求的方式。</strong> 作为Web开发者。我们很熟悉这样访问数据库（I/O）：</p>
 
-<pre><code>var resultset = db.query("SELECT * FROM 'table'");
-drawTable(resultset);
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">resultset</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;table&#39;&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">drawTable</span><span class="p">(</span><span class="nx">resultset</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>这一行实际上会阻塞你的代码，因为你的程序会停止运行直到你的数据库返回数据 <em>resultset</em>。在此期间，你的架构会提供线程来提高并发性。</p>
 
 <p>有了Node.js和非阻塞性编程，我们对程序流程有了更多的控制。现在（你仍然可以使用线程提高并发），你可以告诉程序在请求数据的同时，你可以做什么，还有数据到达之后，要怎么处理。</p>
 
-<pre><code>db.query("SELECT * FROM 'table'", function  resultset){
-   drawTable(resultset);
-});
-doSomeThingElse();
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">db</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;table&#39;&quot;</span><span class="p">,</span> <span class="kd">function</span>  <span class="nx">resultset</span><span class="p">){</span>
+</span><span class='line'>   <span class="nx">drawTable</span><span class="p">(</span><span class="nx">resultset</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nx">doSomeThingElse</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>通过这个代码片段，我们可以看到两段程序流程：第一个在发送数据库查询请求之后，立刻执行；第二个在我们受到返回<em>resultSet</em>之后执行。这是一个优雅又强大的管理并发性的方案。就像他们说的：“除了你的代码，所有都是并发执行。”因此，你的代码很容易编写、阅读、理解和维护，不用担心你的程序流程失去控制。</p>
 
@@ -301,8 +353,10 @@ doSomeThingElse();
 
 <p>这是经典TDD的断言风格：</p>
 
-<pre><code>assert.equal(variable, "value");
-</code></pre>
+<figure class='code'><figcaption><span>assert  </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">variable</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <ul>
 <li><code>expect</code></li>
@@ -311,8 +365,10 @@ doSomeThingElse();
 
 <p>这种链式风格最常见于BDD：</p>
 
-<pre><code>expect(variable).to.equal("value");
-</code></pre>
+<figure class='code'><figcaption><span>expect  </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">variable</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <ul>
 <li><code>should</code></li>
@@ -321,8 +377,10 @@ doSomeThingElse();
 
 <p>这也用于BDD，但我更喜欢<code>expect</code>因为<code>should</code>经常重复（比如行为说明文档“it(should do something&#8230;)”），例如：</p>
 
-<pre><code>variable.should.equal("value");
-</code></pre>
+<figure class='code'><figcaption><span>should</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">variable</span><span class="p">.</span><span class="nx">should</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Chai和Mocha结合很完美。用这两个库你可以用TDD、BDD或者你想用的方式去写你的测试用例。</p>
 
@@ -338,34 +396,59 @@ doSomeThingElse();
 
 <p>在<code>main.js</code>:</p>
 
-<pre><code>define(
-  ["App","module"],
-  function(App, Module){
-      var app = new App();
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">define</span><span class="p">(</span>
+</span><span class='line'>  <span class="p">[</span><span class="s2">&quot;App&quot;</span><span class="p">,</span><span class="s2">&quot;module&quot;</span><span class="p">],</span>
+</span><span class='line'>  <span class="kd">function</span><span class="p">(</span><span class="nx">App</span><span class="p">,</span> <span class="nx">Module</span><span class="p">){</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Module</span><span class="p">({</span>
+</span><span class='line'>          <span class="nx">app</span><span class="o">:</span> <span class="nx">app</span>
+</span><span class='line'>      <span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">app</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
-      var module = new Module({
-          app: app
-      })
-
-      return app;
-  }
-);
-</code></pre>
 
 <p>在<code>module.js</code>：</p>
 
-<pre><code>define([],
-  function(){
-      var module = function(options){
-          this.app = options.app;
-      };
-      module.prototype.useApp = function(){
-          this.app.performAction();
-      };
-      return module
-  }
-);
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">define</span><span class="p">([],</span>
+</span><span class='line'>  <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">module</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">){</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">app</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">app</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">};</span>
+</span><span class='line'>      <span class="nx">module</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">useApp</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">performAction</span><span class="p">();</span>
+</span><span class='line'>      <span class="p">};</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">module</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>注意到，我们要让模块依赖<code>main.js</code>的话，比如创建循环引用。</p>
 
