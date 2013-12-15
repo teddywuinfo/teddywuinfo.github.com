@@ -3,7 +3,7 @@ layout: post
 title: "[翻译]JavaScript一波流"
 date: 2013-12-15 10:54
 comments: true
-categories: 
+categories: [javascript, full-stack, node.js,MongoDB,Grunt,SPA]
 ---
 原文来自[An Introduction To Full-Stack JavaScript](http://coding.smashingmagazine.com/2013/11/21/introduction-to-full-stack-javascript/#more-129418)
 

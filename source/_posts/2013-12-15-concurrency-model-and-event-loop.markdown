@@ -3,7 +3,7 @@ layout: post
 title: "[翻译]并发模型和Event Loop"
 date: 2013-12-15 19:00
 comments: true
-categories: 
+categories: [javascript, event loop, concurrency model]
 ---
 原文来自《[Concurrency model and Event Loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/EventLoop)》
 
