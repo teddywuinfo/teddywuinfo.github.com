@@ -1,0 +1,35 @@
+---
+layout: default
+title: "关于泰迪"
+---
+<div id="about">
+	<div id ="content">
+	<p>平庸就是缺乏想象，缺乏个性，缺乏锐气，缺乏创见，缺乏追求，缺乏理想，缺乏勇气，或许有些知识，但是没有见识，或许有些才能，但是没有才华，或许有个文凭，但是没有水平。平庸就是除了物质需要别无他求，以现实为自己活动的上限，以身边的人为自己的标准，以生活的物质处境为自己的骄傲。平庸就是人云亦云，模仿，攀比，陈腐，乏味，呆板，枯燥，俗气，单调，没有色彩，四平八稳，没有挑战性，一眼看得到底，对特立独行恨之入骨。</p>
+
+	
+	<p>我是泰迪，我想做一个<strong>不平庸</strong>的人。
+	毕业于关山口职业技术学院。
+	目前在企鹅的空间做前台。</p>
+
+	<p>var focusedOn = ['互联网', 'javascript','windows phone 8', 'ukulele', 'blog', '树莓派'];</p>
+	<p>你可以通过以下方式找到我：</p>
+	<ul>
+		<li> <strong>Gmail</strong> wuweihengbb@gmail.com</li>
+		<li> <strong>QQ</strong>  312315220</li>
+		<li> <strong>豆瓣</strong> http://www.douban.com/people/teddywu</li>
+		<li> <strong>新浪微博</strong> http://weibo.com/teddywu</li>
+		<li> <strong>Facebook</strong> http://facebook.com/teddywuinfo</li>
+		<li> <strong>github</strong> https://github.com/teddywuinfo</li>
+	</ul>
+	</div>
+	<div id="about_teddy">
+		<a href="/images/teddy/teddy1.jpg" title="泰迪" class="fancybox" rel="gallery0">
+			<img src="/images/teddy/teddy1.jpg" width="200" height = "140" title="泰迪" alt="泰迪"/></a>
+		<a href="/images/teddy/teddy2.jpg" title="泰迪" class="fancybox" rel="gallery0">
+			<img src="/images/teddy/teddy2.jpg" width="100" height = "140" title="泰迪" alt="泰迪"/></a>
+		<a href="/images/teddy/teddy3.jpg" title="泰迪" class="fancybox" rel="gallery0">
+			<img src="/images/teddy/teddy3.jpg" width="100" height = "140" title="泰迪" alt="泰迪"/></a>
+		<a href="/images/teddy/teddy4.jpg" title="泰迪" class="fancybox" rel="gallery0">
+			<img src="/images/teddy/teddy4.jpg" width="200" height = "140" title="泰迪" alt="泰迪"/></a>
+	</div>
+</div>

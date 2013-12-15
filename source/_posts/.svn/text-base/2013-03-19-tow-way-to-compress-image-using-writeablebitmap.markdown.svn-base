@@ -1,0 +1,71 @@
+---
+layout: post
+title: "[WP8开发]利用WriteableBitmap图片压缩的两种方法"
+date: 2013-03-19 09:59
+comments: true
+categories: [wp8, windows phone 8, writeablebitmap,图片压缩, compress]
+---
+
+在WP8 QZONE项目开发过程中，需要实现图片上传功能，那么上传图片之前，出于节省用户的流量和提高上传速度，需要先把图片进行压缩后再上传。利用WriteableBitmap 可以轻松实现图片压缩。
+<!-- more -->
+方案一： 利用DecodeJpeg 和SaveJpeg方法实现图片压缩
+
+
+	byte[] UploadPictureProcess(byte[] bytes) {
+	    using (MemoryStream ms = new MemoryStream(bytes)) {
+	        using (MemoryStream toSM = new MemoryStream()) {
+	            WriteableBitmap bt;
+	            //输入stream，得到WriteableBitmap 
+	            bt = Microsoft.Phone.PictureDecoder.DecodeJpeg(ms);
+	            //GetSize的作用以压缩前的宽高，算出压缩后的宽高
+	            Size size = GetSize(new Size(bt.PixelWidth, bt.PixelHeight));
+	            //通过减少图片宽高和压缩率，来降低图片大小
+	            //GetCompressRatio()方法得到压缩率
+	            bt.SaveJpeg(toSM, (int)size.Width, (int)size.Height, 0, GetCompressRatio());
+	            bt = null;
+	            return toSM.ToArray();
+	        }
+	    }
+	}
+
+
+利用方案一已经可以实现图片压缩了，但在调用DecodeJpeg方法的时候，会瞬间占用大量内存。如果图片较大的情况下或者批量上传图片的时候，容易因为内存不足crash。为什么呢？经过分析发现，这里主要是WriteableBitmap 占用了较大内存，一个WriteableBitmap 所占用的内存为像素高*像素宽*4那么大的内存。DecodeJpeg函数创建了原图像素高*原图像素宽那么大的WriteableBitmap，其实并不需要那么大，只需要用压缩后的高宽大小就够用了。 因此可以用Render函数代替DecodeJpeg，通过设置transfrom的缩放因子调正WriteableBitmap 的像素宽高，降低内存占用。因此有了方案二。
+
+方案二： 利用Render和SaveJpeg方法
+
+利用WriteableBitmap 的Render函数，Render 接收两个参数，一个是原图的控件，一个是图片变换(Transform)。 函数根据图片变换的参数对原图进行处理，返回 WriteableBitmap。这里的图片变换可以是放大、缩小、位移、旋转等等。我们可以通过设置图片变换的缩放因子ScaleX和ScaleY ——让WriteableBitmap 进行缩小。
+
+	byte[] UploadPictureProcess(byte[] bytes) {
+	    using (MemoryStream ms = new MemoryStream(bytes)) {
+	        using (MemoryStream toSM = new MemoryStream()) {
+	            Image image = new Image();
+	            BitmapImage bitmap = new BitmapImage();
+	            bitmap.SetSource(ms);
+	            image.Source = bitmap;
+	            //GetSize的作用以压缩前的宽高，算出压缩后的宽高
+	            Size size = GetSize(new Size(bitmap.PixelWidth, bitmap.PixelHeight));
+	            //先得到压缩后的宽高，并创建以该宽高创建一个WriteableBitmap 
+	            WriteableBitmap wb = new WriteableBitmap((int)size.Width, (int)size.Height);
+	            ScaleTransform transform = new ScaleTransform();
+	            //ScaleX和ScaleY是缩放因子，这里计算压缩前后宽高的缩放比例，得到图片变换(transfrom)对象，作为Render的参数
+	            transform.ScaleX = size.Width / bitmap.PixelWidth;
+	            transform.ScaleY = size.Height / bitmap.PixelHeight;
+	            //通过Render绘制到WriteableBitmap 
+	            wb.Render(image, transform);
+	            wb.Invalidate();
+	            //这里也是一样通过减少图片宽高和压缩率，来降低图片大小
+	            //GetCompressRatio()方法得到压缩率
+	            Extensions.SaveJpeg(wb, toSM, (int)size.Width, (int)size.Height, 0, GetCompressRatio()); 
+	            bitmap = null;
+	            image.Source = null;
+	            image = null;
+	            wb = null;
+	            return toSM.ToArray();
+	        }
+	    }
+	}
+
+
+
+
+方案二跟方案一相比的内存占用量相比相差是很明显的。压缩效果也是一样。因此得到比较满意的图片压缩方案。这里进行分享下，欢迎拍砖~
