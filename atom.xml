@@ -4,7 +4,7 @@
   <title><![CDATA[Teddywu]]></title>
   <link href="http://teddywuinfo.github.com/atom.xml" rel="self"/>
   <link href="http://teddywuinfo.github.com/"/>
-  <updated>2013-12-16T00:23:44+08:00</updated>
+  <updated>2015-08-13T14:02:41+08:00</updated>
   <id>http://teddywuinfo.github.com/</id>
   <author>
     <name><![CDATA[Teddywu]]></name>
@@ -120,7 +120,7 @@
     <link href="http://teddywuinfo.github.com/blog/2013/12/15/introduction-to-full-stack-javascript/"/>
     <updated>2013-12-15T10:54:00+08:00</updated>
     <id>http://teddywuinfo.github.com/blog/2013/12/15/introduction-to-full-stack-javascript</id>
-    <content type="html"><![CDATA[<p>原文来自<a href="http://coding.smashingmagazine.com/2013/11/21/introduction-to-full-stack-javascript/#more-129418">An Introduction To Full-Stack JavaScript</a></p>
+    <content type="html"><![CDATA[<p>原文来自《<a href="http://coding.smashingmagazine.com/2013/11/21/introduction-to-full-stack-javascript/#more-129418">An Introduction To Full-Stack JavaScript</a>》</p>
 
 <p>现在，要开发web应用，你有非常多技术方案可以选择，而你想要选择最合适的一种，这种方案必须敏捷快速，持续迭代，高效可靠等等。你想要这种技术精简和灵活，而且无论是短期还是长期都帮助你成功。但这些技术方案不总是那么容易找到。</p>
 
