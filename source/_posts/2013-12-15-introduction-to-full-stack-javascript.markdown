@@ -5,7 +5,7 @@ date: 2013-12-15 10:54
 comments: true
 categories: [javascript, full-stack, node.js,MongoDB,Grunt,SPA]
 ---
-原文来自[An Introduction To Full-Stack JavaScript](http://coding.smashingmagazine.com/2013/11/21/introduction-to-full-stack-javascript/#more-129418)
+原文来自《[An Introduction To Full-Stack JavaScript](http://coding.smashingmagazine.com/2013/11/21/introduction-to-full-stack-javascript/#more-129418)》
 
 
 现在，要开发web应用，你有非常多技术方案可以选择，而你想要选择最合适的一种，这种方案必须敏捷快速，持续迭代，高效可靠等等。你想要这种技术精简和灵活，而且无论是短期还是长期都帮助你成功。但这些技术方案不总是那么容易找到。
